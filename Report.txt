@@ -1,3 +1,26 @@
-- Changed the game to Mouse Cat Elephant, including the app name to be more descriptive 
-- Variable name changes to be more descriptive as well
+Florian Shabanaj fs2564
+Nikiander Pelari np2588
 
+Project 1 Report: 
+
+The app is a game that has the same logic as Rock-Paper-Scissors but instead uses a Mouse, a Cat, and an Elephant. 
+
+The demo was used as a template. These were the changes made to it for project 1: 
+
+- Changed the game to Mouse Cat Elephant, including the app name to be more descriptive.
+  The game still follows the rules of Rock Paper Scissors. Mouse beats Elephant, Elephant beats Cat, Cat beats Mouse. The rest are draws. 
+
+- Variable name changes to be more descriptive as well.
+
+- Removed pointless floating action button.
+
+- Changed the theme to be epic battle styled, complete with music and all. The music loops and I turned down the volume a bit. 
+  The computer has generally more evil looking characters, this should go well with the theme.
+
+- Added counter to show wins, losses, and draws for more indepth stats. 
+
+- Using shared preferences we save the total stats through sessions. The user can keep progress on their stats as long as the app is installed.
+
+- Changed the app icon to better fit the app.
+
+- Removed sounds when clicking the characters, we just couldn't find good sounds for the animals to go with the battle theme.  

@@ -3,6 +3,7 @@ package example.android.my.project1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -29,19 +30,35 @@ import java.util.EventListener;
 
 public class MainActivity extends Activity {
 
+    //SharedPreferences data
+    public static final String STATS_PREFS = "StatsPrefs" ;
+    public static final String TOTAL_BATTLES = "battles" ;
+    public static final String TOTAL_WINS = "wins" ;
+    public static final String TOTAL_LOSSES = "losses" ;
+    public static final String TOTAL_DRAWS = "draws" ;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+
     //added
     private ImageView imgView;  //the first ImageView in the view
     private ImageButton m_imgBtn, c_imgBtn, e_imgBtn;  // Mouse, Cat, Elephant images
 
-    private TextView result_tv, count_tv;  //the textView of result and count
+    private TextView result_tv, count_tv, cmp_choice_tv;  //the textView of result and count
+
+    private TextView winCount_tv, lossCount_tv, drawCount_tv; //textviews for stats counters
+
+    //stats vars
     int count = 0; // initialize the game count
+    int winCount = 0;
+    int drawCount = 0;
+    int lossCount = 0;
 
     //intialize a listener to monitoring the three buttons
     MCEChoiceOnClickListener mceChoiceOnClickListener = new MCEChoiceOnClickListener();
 
     //add two MediaPlayer objects
-    private MediaPlayer mp_background;
-    private MediaPlayer mp_button;
+    private MediaPlayer mp_backgBattles;
 
 
 
@@ -51,12 +68,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //added
-
         //initialize buttons
-        m_imgBtn = (ImageButton) findViewById(R.id.btnRock);
-        c_imgBtn = (ImageButton) findViewById(R.id.btnPaper);
-        e_imgBtn = (ImageButton) findViewById(R.id.btnSci);
+        m_imgBtn = (ImageButton) findViewById(R.id.btnMouse);
+        c_imgBtn = (ImageButton) findViewById(R.id.btnCat);
+        e_imgBtn = (ImageButton) findViewById(R.id.btnElephant);
 
         //initialize imgView
         imgView = (ImageView) findViewById(R.id.viewCmp);
@@ -64,19 +79,44 @@ public class MainActivity extends Activity {
         //initialize result and count TextView
         result_tv = (TextView) findViewById(R.id.textResult);
         count_tv = (TextView) findViewById(R.id.textCount);
+        cmp_choice_tv = (TextView) findViewById(R.id.cmpChoiceText);
+        winCount_tv = (TextView) findViewById(R.id.winCountTextView);
+        lossCount_tv = (TextView) findViewById(R.id.lossCountTextView);
+        drawCount_tv = (TextView) findViewById(R.id.drawCountTextView);
 
         m_imgBtn.setOnClickListener(mceChoiceOnClickListener);
         c_imgBtn.setOnClickListener(mceChoiceOnClickListener);
         e_imgBtn.setOnClickListener(mceChoiceOnClickListener);
 
         //declare the audio resource to these two MediaPlayer objects
-        mp_background = MediaPlayer.create(this, R.raw.main);
-        mp_button = MediaPlayer.create(this, R.raw.blaster);
+        mp_backgBattles = MediaPlayer.create(this, R.raw.main);
 
+        //retrieve old stat data using shared preferences
+        sharedPreferences = getSharedPreferences(STATS_PREFS, Context.MODE_PRIVATE);
+        if(sharedPreferences.contains(TOTAL_BATTLES)) {
+            count = sharedPreferences.getInt(TOTAL_BATTLES, 0);
+            count_tv.setText("Battles: " + count);
+        }
 
+        if(sharedPreferences.contains(TOTAL_WINS)) {
+            winCount = sharedPreferences.getInt(TOTAL_WINS, 0);
+            winCount_tv.setText("Wins: " + winCount);
+        }
 
-        //play background music here
-        mp_background.start();
+        if(sharedPreferences.contains(TOTAL_LOSSES)) {
+            lossCount = sharedPreferences.getInt(TOTAL_LOSSES, 0);
+            lossCount_tv.setText("Losses: " + lossCount);
+        }
+
+        if(sharedPreferences.contains(TOTAL_DRAWS)) {
+            drawCount = sharedPreferences.getInt(TOTAL_DRAWS, 0);
+            drawCount_tv.setText("Draws: " + drawCount);
+        }
+
+        //play backgBattles music here
+        mp_backgBattles.start();
+        mp_backgBattles.setLooping(true);
+        mp_backgBattles.setVolume(0.75f, 0.75f);
 
         //end
 
@@ -86,109 +126,112 @@ public class MainActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            // TODO Auto-generated method stub
-
-            //play button sound here
-            mp_button.start();
-
             // get a random number form 1 to 3
             int rand = (int) (Math.random() * 3 + 1);
-            count++;//
-
+            count++;
             //store times of game in device
 //            storeData(count+"");
 
             switch (rand) {
                 /**
-                 * rand = 1 means computer is Rock,
-                 * 2 represents Paper,
-                 * 3 represents scissors
+                 * rand = 1 means computer is Mouse,
+                 * 2 represents Cat,
+                 * 3 represents Elephant
                  */
                 case 1:
-                    imgView.setImageResource(R.drawable.rock);  //computer choose Rock
+                    imgView.setImageResource(R.drawable.badmouse);  //computer choose Mouse
+                    cmp_choice_tv.setText("MOUSE");
                     switch (v.getId()) {
-                        case R.id.btnRock:   //player choose Rock
+                        case R.id.btnMouse:   //player choose Mouse
                             result_tv.setText("Result: "
                                     + "Tied!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            drawCount++;
+                            drawCount_tv.setText("Draws: " + drawCount);
                             break;
-                        case R.id.btnPaper:  //player choose Paper
+                        case R.id.btnCat:  //player choose Cat
                             result_tv.setText("Result: "
                                     + "Win!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            winCount++;
+                            winCount_tv.setText("Wins: " + winCount);
                             break;
-                        case R.id.btnSci:  //player choose Scissors
+                        case R.id.btnElephant:  //player choose Elephant
                             result_tv.setText("Result: "
                                     + "Lose!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            lossCount++;
+                            lossCount_tv.setText("Losses: " + lossCount);
                             break;
                     }
                     break;
                 case 2:
-                    imgView.setImageResource(R.drawable.paper);  //computer choose Paper
+                    imgView.setImageResource(R.drawable.badcat);  //computer choose Cat
+                    cmp_choice_tv.setText("CAT");
                     switch (v.getId()) {
-                        case R.id.btnRock:
+                        case R.id.btnMouse:
                             result_tv.setText("Result: "
                                     + "Lose!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            lossCount++;
+                            lossCount_tv.setText("Losses: " + lossCount);
                             break;
-                        case R.id.btnPaper:
+                        case R.id.btnCat:
                             result_tv.setText("Result: "
                                     + "Tie!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            drawCount++;
+                            drawCount_tv.setText("Draws: " + drawCount);
                             break;
-                        case R.id.btnSci:
+                        case R.id.btnElephant:
                             result_tv.setText("Result: "
                                     + "Win!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            winCount++;
+                            winCount_tv.setText("Wins: " + winCount);
                             break;
                     }
                     break;
                 case 3:
-                    imgView.setImageResource(R.drawable.scissors);  //computer choose Scissors
+                    imgView.setImageResource(R.drawable.badelephant);  //computer choose Elephant
+                    cmp_choice_tv.setText("ELEPHANT");
                     switch (v.getId()) {
-                        case R.id.btnRock:
+                        case R.id.btnMouse:
                             result_tv.setText("Result: "
                                     + "Win!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            winCount++;
+                            winCount_tv.setText("Wins: " + winCount);
                             break;
-                        case R.id.btnPaper:
+                        case R.id.btnCat:
                             result_tv.setText("Result: "
                                     + "Lose!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            lossCount++;
+                            lossCount_tv.setText("Losses: " + lossCount);
                             break;
-                        case R.id.btnSci:
+                        case R.id.btnElephant:
                             result_tv.setText("Result: "
                                     + "Tie!");
-                            count_tv.setText("Round: " + count);
+                            count_tv.setText("Battles: " + count);
+                            drawCount++;
+                            drawCount_tv.setText("Draws: " + drawCount);
                             break;
                     }
                     break;
             }
+            editor = sharedPreferences.edit();
+            editor.putInt(TOTAL_BATTLES, count);
+            editor.putInt(TOTAL_WINS, winCount);
+            editor.putInt(TOTAL_LOSSES, lossCount);
+            editor.putInt(TOTAL_DRAWS, drawCount);
+            editor.apply();
         }
     }
 
-//    public void storeData(String count)
-//    {
-//        FileOutputStream outputStream;
-//        Date date = new Date(System.currentTimeMillis());
-//        try {
-//            outputStream = openFileOutput("record.txt", Context.MODE_PRIVATE);
-//            outputStream.write(date.toString().getBytes());
-//            outputStream.write("    ".getBytes());
-//            outputStream.write(count.getBytes());
-//            outputStream.write(System.getProperty("line.separator").getBytes());
-//            outputStream.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    //end
-
     @Override
     protected void onDestroy() {
-        mp_background.stop();
+        mp_backgBattles.stop();
         super.onDestroy();
     }
 

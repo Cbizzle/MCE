@@ -12,10 +12,13 @@
     tools:context="example.android.my.project1.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <ImageView
+    <TextView
         android:id="@+id/fg_title"
         android:layout_width="match_parent"
-        android:src="@drawable/fg_title"
+        android:text="MOUSE VS. CAT VS. ELEPHANT"
+        android:gravity="center"
+        android:textSize="21sp"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:background="#fdfcfc" />
 
@@ -25,9 +28,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/fg_title"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
-        android:text="Computer"
-        android:textColor="@color/text_color"/>
+        android:text="Computer's Ally"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/playerShow"
@@ -35,44 +39,58 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/fg_title"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="20dp"
-        android:text="Choose your Punch!"
-        android:textColor="@color/text_color" />
+        android:text="Choose Your Ally"
+        android:textColor="@color/colorPrimaryDark" />
 
 
     <ImageButton
-        android:id="@+id/btnRock"
+        android:id="@+id/btnMouse"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/playerShow"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="MOUSE"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
+        android:src="@drawable/battlemouse"
+        android:background="@drawable/button_selector"
         android:layout_below="@+id/playerShow"
-        android:layout_marginRight="20dp"
-        android:contentDescription="ROCK"
-        android:src="@drawable/rock"
-        android:background="@drawable/button_selector"
-        />
+        android:layout_alignStart="@+id/playerShow" />
+
     <ImageButton
-        android:id="@+id/btnPaper"
+        android:id="@+id/btnCat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/btnRock"
-        android:layout_below="@id/btnRock"
         android:layout_marginRight="20dp"
         android:layout_marginTop="9dp"
-        android:contentDescription="PAPER"
-        android:src="@drawable/paper"
+        android:contentDescription="CAT"
+        android:src="@drawable/battlecat"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
         android:background="@drawable/button_selector"
-        />
+        android:layout_below="@+id/btnMouse"
+        android:layout_alignStart="@+id/btnMouse" />
+
     <ImageButton
-        android:id="@+id/btnSci"
+        android:id="@+id/btnElephant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/btnPaper"
-        android:layout_below="@id/btnPaper"
+        android:layout_alignLeft="@id/btnCat"
+        android:layout_below="@id/btnCat"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="9dp"
-        android:contentDescription="SCISSORS"
-        android:src="@drawable/scissors"
+        android:layout_marginTop="12dp"
+        android:contentDescription="ELEPHANT"
+        android:src="@drawable/battleelephant"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
         android:background="@drawable/button_selector"
         />
 
@@ -80,10 +98,21 @@
         android:id="@+id/viewCmp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/btnPaper"
+        android:layout_alignTop="@id/btnCat"
         android:layout_below="@id/cmpShow"
         android:layout_marginLeft="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:maxHeight="200dp"
+        android:maxWidth="170dp"
         android:contentDescription="cmpViewDes"/>
+
+    <TextView
+        android:id="@+id/cmpChoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewCmp"
+        android:layout_alignLeft="@id/viewCmp"/>
 
 
     <TextView
@@ -92,19 +121,59 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/viewCmp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="63dp"
         android:textColor="#ff6ec7"
-        android:text="result"
+        android:text="Result:"
         android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/statsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textResult"
+        android:layout_alignParentBottom="true"
+        android:text="Total Stats:"
+        android:layout_marginBottom="33dp"
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/textCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textResult"
+        android:layout_alignLeft="@+id/statsTextView"
         android:layout_alignParentBottom="true"
-        android:text="round:"
+        android:text="Battles: 0"
+        android:layout_marginBottom="14dp"
         android:textColor="#ff2400"
         android:textSize="15sp" />
+    <TextView
+        android:id="@+id/winCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Wins: 0"
+        android:textColor="#ff2400"
+        android:layout_marginLeft="20dp"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/lossCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/winCountTextView"
+        android:layout_alignParentBottom="true"
+        android:text="Losses: 0"
+        android:textColor="#ff2400"
+        android:layout_marginLeft="20dp"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/drawCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/lossCountTextView"
+        android:layout_alignParentBottom="true"
+        android:text="Draws: 0"
+        android:textColor="#ff2400"
+        android:layout_marginLeft="20dp"
+        android:textSize="13sp" />
 
 </RelativeLayout>
