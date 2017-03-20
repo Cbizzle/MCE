@@ -31,13 +31,13 @@ public class MainActivity extends Activity {
 
     //added
     private ImageView imgView;  //the first ImageView in the view
-    private ImageButton r_imgBtn, p_imgBtn, s_imgBtn;  // Rock, Paper, Scissors
+    private ImageButton m_imgBtn, c_imgBtn, e_imgBtn;  // Mouse, Cat, Elephant images
 
     private TextView result_tv, count_tv;  //the textView of result and count
-    int count = 0; // initialize the count
+    int count = 0; // initialize the game count
 
     //intialize a listener to monitoring the three buttons
-    MyOnClickListener myOnClickListener = new MyOnClickListener();
+    MCEChoiceOnClickListener mceChoiceOnClickListener = new MCEChoiceOnClickListener();
 
     //add two MediaPlayer objects
     private MediaPlayer mp_background;
@@ -54,9 +54,9 @@ public class MainActivity extends Activity {
         //added
 
         //initialize buttons
-        r_imgBtn = (ImageButton) findViewById(R.id.btnRock);
-        p_imgBtn = (ImageButton) findViewById(R.id.btnPaper);
-        s_imgBtn = (ImageButton) findViewById(R.id.btnSci);
+        m_imgBtn = (ImageButton) findViewById(R.id.btnRock);
+        c_imgBtn = (ImageButton) findViewById(R.id.btnPaper);
+        e_imgBtn = (ImageButton) findViewById(R.id.btnSci);
 
         //initialize imgView
         imgView = (ImageView) findViewById(R.id.viewCmp);
@@ -65,9 +65,9 @@ public class MainActivity extends Activity {
         result_tv = (TextView) findViewById(R.id.textResult);
         count_tv = (TextView) findViewById(R.id.textCount);
 
-        r_imgBtn.setOnClickListener(myOnClickListener);
-        p_imgBtn.setOnClickListener(myOnClickListener);
-        s_imgBtn.setOnClickListener(myOnClickListener);
+        m_imgBtn.setOnClickListener(mceChoiceOnClickListener);
+        c_imgBtn.setOnClickListener(mceChoiceOnClickListener);
+        e_imgBtn.setOnClickListener(mceChoiceOnClickListener);
 
         //declare the audio resource to these two MediaPlayer objects
         mp_background = MediaPlayer.create(this, R.raw.main);
@@ -82,8 +82,7 @@ public class MainActivity extends Activity {
 
     }
 
-    //added
-    private class MyOnClickListener implements View.OnClickListener {
+    private class MCEChoiceOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {

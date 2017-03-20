@@ -1,0 +1,3 @@
+- Changed the game to Mouse Cat Elephant, including the app name to be more descriptive 
+- Variable name changes to be more descriptive as well
+
