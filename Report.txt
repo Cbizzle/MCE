@@ -3,7 +3,7 @@ Nikiander Pelari np2588
 
 Project 1 Report: 
 
-The app is a game that has the same logic as Rock-Paper-Scissors but instead uses a Mouse, a Cat, and an Elephant. 
+The app is a game that has the same logic as Rock-Paper-Scissors but instead uses a Mouse, a Cat, and an Elephant. It will record the Wins, Losses, and Draws throguhout sessions. Comes complete with a battle music theme.
 
 The demo was used as a template. These were the changes made to it for project 1: 
 
