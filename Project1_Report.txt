@@ -23,4 +23,6 @@ The demo was used as a template. These were the changes made to it for project 1
 
 - Changed the app icon to better fit the app.
 
+- Removed toolbar as there was no functionality with it. 
+
 - Removed sounds when clicking the characters, we just couldn't find good sounds for the animals to go with the battle theme.  
